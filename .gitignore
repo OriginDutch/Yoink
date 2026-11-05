@@ -1,0 +1,15 @@
+# PC build output and bundled tools
+/build/
+/dist/
+/bin/
+*.spec
+__pycache__/
+yoink_config.json
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.jks
+*.keystore
