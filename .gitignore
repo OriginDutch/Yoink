@@ -5,6 +5,7 @@
 *.spec
 __pycache__/
 yoink_config.json
+*.part
 
 # Android
 android/.gradle/
@@ -13,3 +14,13 @@ android/app/build/
 android/local.properties
 *.jks
 *.keystore
+*.apk
+*.aab
+
+# Editors and OS clutter
+.idea/
+*.iml
+.vscode/
+Thumbs.db
+desktop.ini
+.DS_Store

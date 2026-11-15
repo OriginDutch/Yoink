@@ -42,10 +42,6 @@ NO_WINDOW = subprocess.CREATE_NO_WINDOW if IS_WINDOWS else 0
 YTDLP_DOWNLOAD_URL = (
     "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe"
 )
-DEFAULT_VIDEOCUT = (
-    Path.home() / "Desktop" / "Projects" / "VideoCut" / "dist"
-    / "VideoCutPlayer" / "VideoCutPlayer.exe"
-)
 DEFAULT_BROWSER = "firefox"
 POLL_MS = 100
 
@@ -1004,11 +1000,11 @@ class YoinkApp:
             self._say(job.url)
 
     def _videocut_exe(self):
-        path = Path(self.cfg.get("videocut", str(DEFAULT_VIDEOCUT)))
-        if path.exists():
-            return path
+        saved = self.cfg.get("videocut")
+        if saved and Path(saved).exists():
+            return Path(saved)
         messagebox.showinfo(
-            APP_NAME, "Cannot find VideoCutPlayer.exe. Point Yoink to it once "
+            APP_NAME, "Where is VideoCutPlayer.exe? Point Yoink to it once "
                       "and it will remember.")
         picked = filedialog.askopenfilename(
             parent=self.root, title="Find VideoCutPlayer.exe",

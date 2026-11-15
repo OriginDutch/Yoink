@@ -19,7 +19,7 @@ the queue on your PC.
 - **Use Firefox cookies** lets yt-dlp use your Firefox login, which X and
   other logged-in sites need. Untick it if a site acts weird.
 - **Open in VideoCut** (or double-click a finished row) opens the file in
-  VideoCutPlayer. The first time it can't find it, you point to the exe once.
+  VideoCutPlayer. The first time, you point Yoink to `VideoCutPlayer.exe` once.
 - **Retry** / **Stop** / **Remove** / **Clear finished** work on the selected rows.
   Delete also removes.
 - **Update yt-dlp**: sites break yt-dlp every few weeks. When a site that used
@@ -107,3 +107,7 @@ It lives in the repo secrets (*Settings → Secrets and variables → Actions*):
 - `SIGNING_PASSWORD` — password of both keystore and key (alias `yoink`)
 
 Without them the workflow still compiles, but publishes no release.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
