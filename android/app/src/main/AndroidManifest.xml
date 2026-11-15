@@ -4,12 +4,15 @@
 
     <!-- Talk to Yoink on the PC over the home network. -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Required since Android 14 for a JobScheduler job that waits for wifi. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Keeps the "retry every 15 min" job alive across reboots. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- QR scan. -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:name=".YoinkApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"

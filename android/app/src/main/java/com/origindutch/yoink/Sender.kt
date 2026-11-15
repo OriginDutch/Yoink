@@ -22,6 +22,10 @@ object Sender {
         synchronized(lock) {
             try {
                 return attempt(app)
+            } catch (e: Exception) {
+                // Anything unexpected: keep the links, report "later", don't crash.
+                CrashLog.note(app, "Versturen mislukt", e)
+                return Outcome(Result.OFFLINE, LinkStore.all(app).size)
             } finally {
                 RetryJob.update(app)
             }
@@ -64,7 +68,16 @@ object RetryJob {
     private const val ID = 1
     private const val PERIOD_MS = 15 * 60 * 1000L
 
+    /** Never throws: a scheduling problem must not take the app down. */
     fun update(ctx: Context) {
+        try {
+            schedule(ctx)
+        } catch (e: Exception) {
+            CrashLog.note(ctx, "Retry-job inplannen mislukt", e)
+        }
+    }
+
+    private fun schedule(ctx: Context) {
         val js = ctx.getSystemService(JobScheduler::class.java) ?: return
         val needed = LinkStore.all(ctx).isNotEmpty() && PairingStore.load(ctx) != null
         if (!needed) {

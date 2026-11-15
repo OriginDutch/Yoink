@@ -1,6 +1,8 @@
 package com.origindutch.yoink
 
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
@@ -43,6 +45,30 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(buildLayout())
+        showLastError()
+    }
+
+    /** If the app crashed (or hit an error) last time, show it with a copy button. */
+    private fun showLastError() {
+        val text = CrashLog.take(this) ?: return
+        val body = TextView(this).apply {
+            this.text = text
+            setTextIsSelectable(true)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+            setPadding(dp(20), dp(12), dp(20), dp(12))
+        }
+        AlertDialog.Builder(this)
+            .setTitle("Yoink ging mis 💀")
+            .setView(ScrollView(this).apply { addView(body) })
+            .setPositiveButton("Kopiëren") { _, _ ->
+                val cm = getSystemService(ClipboardManager::class.java)
+                cm?.setPrimaryClip(ClipData.newPlainText("Yoink crash", text))
+                CrashLog.clear(this)
+                Toast.makeText(this, "Gekopieerd. Plak het bij Claude.", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("Weg ermee") { _, _ -> CrashLog.clear(this) }
+            .setCancelable(false)
+            .show()
     }
 
     override fun onResume() {
